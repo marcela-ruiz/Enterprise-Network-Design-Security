@@ -1,4 +1,5 @@
 
+
 # Enterprise Network Design, Configuration & Security
 
 ## Project Overview
@@ -32,7 +33,7 @@ The network consists of three Cisco routers, three switches, and four workstatio
 | IEEE 802.1Q | VLAN trunking |
 | Router-on-a-Stick | Inter-VLAN routing |
 | SSHv2 | Secure remote router administration |
-| RSA Keys | SSH cryptographic authentication support |
+| RSA Keys | SSH cryptographic support |
 | ICMP | Connectivity verification |
 | Traceroute | Network path and failover analysis |
 
@@ -40,11 +41,11 @@ The network consists of three Cisco routers, three switches, and four workstatio
 
 The network uses a triangular router topology to provide an alternative routing path if a connection between routers becomes unavailable.
 
-The Administration and Finance departments are assigned separate VLANs to organize network traffic and reduce unnecessary broadcast traffic between departments.
+The Administration and Finance departments are assigned separate VLANs to organize network traffic and separate departmental broadcast domains.
 
 ### Network Topology
 
-![Enterprise Network Topology](screenshots/01_network_topology.png)
+![Enterprise Network Topology](screenshots/00_Network_Topology.png)
 
 ### Network Components
 
@@ -85,13 +86,13 @@ OSPFv2 was configured across all three routers using Area 0. Dynamic routing all
 
 The OSPF neighbor table was examined to confirm that routers successfully established neighbor relationships in the FULL state.
 
-![OSPF Neighbor Verification](screenshots/02_ospf_neighbors.png)
+![OSPF Neighbor Verification](screenshots/03_R1_OSPF_Neighbors.png)
 
 ### Routing Table Verification
 
-The routing table on R2 was examined to verify that the Finance network was successfully learned through OSPF.
+The updated routing table was examined to verify that the Finance network was successfully learned through OSPF.
 
-![OSPF Routing Table](screenshots/03_ospf_routing_table.png)
+![OSPF Routing Table](screenshots/10_OSPF_Updated_Routing_Table.png)
 
 ## VLAN Segmentation and Inter-VLAN Routing
 
@@ -104,19 +105,19 @@ Two VLANs were configured to separate the Administration and Finance departments
 
 ### VLAN Configuration
 
-![VLAN Configuration](screenshots/04_vlan_configuration.png)
+![VLAN Configuration](screenshots/05_VLAN_Configuration.png)
 
 ### 802.1Q Trunk Configuration
 
 A trunk connection between switch S1 and router R1 was configured to carry traffic from VLANs 10 and 20 over a single physical connection.
 
-![Trunk Verification](screenshots/05_trunk_verification.png)
+![Trunk Verification](screenshots/06_Trunk_Configuration.png)
 
 ### Router-on-a-Stick Configuration
 
 Router subinterfaces were configured on R1 to provide separate default gateways and enable communication between the two departmental VLANs.
 
-![Router Subinterfaces](screenshots/06_router_subinterfaces.png)
+![Router Subinterfaces](screenshots/07_Router_Subinterface_Configuration.png)
 
 ## IPv4 Connectivity Testing
 
@@ -124,17 +125,17 @@ Connectivity testing was performed using ICMP echo requests to verify that works
 
 ### Inter-VLAN Connectivity
 
-![Inter-VLAN Connectivity](screenshots/07_inter_vlan_connectivity.png)
+![Inter-VLAN Connectivity](screenshots/08_Inter_VLAN_Connectivity.png)
 
-### Remote LAN Connectivity - PC-B
+![Additional Inter-VLAN Connectivity](screenshots/09_Inter_VLAN_Connectivity.png)
 
-![PC-B Connectivity](screenshots/08_pc_b_connectivity.png)
+### Cross-Network Connectivity
 
-### Remote LAN Connectivity - PC-C
+![Cross-Network Connectivity Test](screenshots/11_Cross_Network_Connectivity.png)
 
-![PC-C Connectivity](screenshots/09_pc_c_connectivity.png)
+![Additional Cross-Network Connectivity Test](screenshots/12_Cross_Network_Connectivity.png)
 
-All three documented connectivity tests returned four successful replies with 0% packet loss.
+Successful connectivity tests confirmed that the configured routing and VLAN infrastructure supported communication across the network.
 
 ## Secure Remote Administration
 
@@ -149,25 +150,25 @@ The configuration included:
 
 ### SSH Configuration
 
-![SSH Configuration](screenshots/10_ssh_configuration.png)
+![SSH Configuration](screenshots/SSH_Configuration.png)
 
 ### Remote Access Verification
 
 A successful SSH connection was established from PC-A to R1 to verify that remote administration was functioning correctly.
 
-![SSH Verification](screenshots/11_ssh_verification.png)
+![SSH Verification](screenshots/21_SSH_Remote_Access_Test.png)
 
 ## Network Failover and Recovery
 
 A controlled router link failure was simulated to evaluate how OSPF responds when an existing network path becomes unavailable.
 
-The purpose of this test was to determine whether the redundant network topology could maintain connectivity through an alternative route after OSPF convergence.
+The purpose of this test was to determine whether the redundant network topology could restore connectivity through an alternative route after OSPF convergence.
 
 ### Phase 1: Baseline Connectivity
 
 Before disabling the router interface, traceroute confirmed that traffic from PC-A to PC-B followed the original three-hop path.
 
-![Baseline Traceroute](screenshots/12_baseline_traceroute.png)
+![Baseline Traceroute](screenshots/22_Baseline_Routing_Path.png)
 
 ### Phase 2: Simulated Link Failure
 
@@ -175,7 +176,7 @@ The connection between R1 and R2 was disabled to simulate a network link failure
 
 After OSPF convergence, traffic was redirected through R3 using an alternative four-hop path. Connectivity testing returned four successful replies with 0% packet loss.
 
-![OSPF Failover](screenshots/13_ospf_failover.png)
+![OSPF Failover](screenshots/23_OSPF_Failover_Test.png)
 
 ### Phase 3: Network Recovery
 
@@ -183,7 +184,7 @@ The disabled interface was restored, allowing OSPF to recalculate the routing pa
 
 Traceroute confirmed that traffic returned to the original three-hop path, and connectivity testing again returned four successful replies with 0% packet loss.
 
-![Network Recovery](screenshots/14_network_recovery.png)
+![Network Recovery](screenshots/24_Network_Recovery_Test.png)
 
 ### Failover Test Results
 
@@ -270,4 +271,3 @@ This project strengthened my understanding of how routing, switching, and networ
 One of the most valuable parts of the project was observing how OSPF responded to a failed network connection and verifying that traffic returned to its original path once the connection was restored.
 
 Completing the configuration and testing process also helped me develop practical experience with Cisco IOS, network troubleshooting, secure remote administration, and technical documentation.
-
