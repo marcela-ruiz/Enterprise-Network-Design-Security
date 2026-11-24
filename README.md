@@ -244,8 +244,8 @@ These measures represent potential future improvements and were not implemented 
 
 ## Project Deliverables
 
-- [Technical Project Report (PDF)](Enterprise_Network_Report.pdf)
-- [Cisco Packet Tracer Project (.pkt)](Enterprise_Network.pkt)
+- [Technical Project Report (PDF)](Enterprise_Network_Report_Expanded.pdf)
+- [Cisco Packet Tracer Project (.pkt)](Enterprise_Network_Configuration.pkt)
 - [Network Configuration and Testing Screenshots](screenshots/)
 
 The technical report provides additional details about the network architecture, configuration decisions, security considerations, troubleshooting process, and testing results.
